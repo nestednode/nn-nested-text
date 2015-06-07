@@ -1,0 +1,25 @@
+{
+    "name": "NestedTextEditor",
+    "version": "0.0.1",
+    "main": "lib/NestedTextEditor.js",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules/",
+        "bower_components/",
+        "pkg/",
+        "labs/",
+        "labs.labman",
+        "src/",
+        "gruntfile.js",
+        "package.json"
+    ],
+    "dependencies": {
+        "React": "../React",
+        "NestedNode": "../NestedNode",
+        "NestedNodeView": "../NestedNodeView",
+        "NestedNodeStyle": "../NestedNodeStyle",
+        "require-css": "~0.1.8"
+    },
+    "devDependencies": {}
+}
