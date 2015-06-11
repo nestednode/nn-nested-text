@@ -49,9 +49,9 @@ class TextInputComponent extends React.Component<TextInputComponentProps, {}, {}
 
     render() {
         return dom['div']({
+            style: { outline: 'none', minWidth: '2px'},
             contentEditable: true,
             onInput: this.handleInput.bind(this),
-            onFocus: (e) => {e.stopPropagation()},
             dangerouslySetInnerHTML: { __html: this.props.value }
         })
     }
