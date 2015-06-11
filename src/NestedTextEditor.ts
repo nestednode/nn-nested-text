@@ -34,8 +34,9 @@ class NestedTextDocument extends NNDocument<TextData> {
 
 
 interface TextInputComponentProps {
-    onChange: (newValue: string) => void;
+    className?: string;
     value: string;
+    onChange: (newValue: string) => void;
 }
 
 class TextInputComponent extends React.Component<TextInputComponentProps, {}, {}> {
@@ -49,6 +50,7 @@ class TextInputComponent extends React.Component<TextInputComponentProps, {}, {}
 
     render() {
         return dom['div']({
+            className: this.props.className,
             style: { outline: 'none', minWidth: '2px'},
             contentEditable: true,
             onInput: this.handleInput.bind(this),
@@ -79,10 +81,11 @@ class NestedTextNodeView extends NestedNodeView.Component<TextData> {
     renderData(data, editMode) {
         return editMode ?
             React.createElement<TextInputComponentProps>(TextInputComponent, {
+                className: 'nn_data',
                 value: data.text,
                 onChange: this.handleTextChange.bind(this)
             }) :
-            data.text;
+            dom['div']({ className: 'nn_data' + (!data.text ? ' empty' : '') }, data.text);
     }
 
     handleTextChange(value) {
