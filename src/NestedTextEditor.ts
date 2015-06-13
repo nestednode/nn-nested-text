@@ -35,30 +35,30 @@ class NestedTextDocument extends NNDocument<TextData> {
 
 interface TextInputComponentProps {
     className?: string;
-    value: string;
-    onChange: (newValue: string) => void;
+    value?: string;
+    onChange?: (newValue: string) => void;
+    onBlur?: () => void;
 }
 
 class TextInputComponent extends React.Component<TextInputComponentProps, {}, {}> {
 
     constructor(props, context) {
         super(props, context);
-        if (! this.props.onChange) {
-            this.props.onChange = () => {};
-        }
+        this.handleInput = this.handleInput.bind(this);
     }
 
     render() {
         return dom['div']({
             className: this.props.className,
             contentEditable: true,
-            onInput: this.handleInput.bind(this),
+            onInput: this.handleInput,
+            onBlur: this.props.onBlur,
             dangerouslySetInnerHTML: { __html: this.props.value }
         })
     }
 
     handleInput(e) {
-        this.props.onChange(e.target.innerText);
+        this.props.onChange && this.props.onChange(e.target.innerText);
     }
 
     componentDidMount() {
@@ -86,13 +86,18 @@ class NestedTextNodeView extends NestedNodeView.Component<TextData> {
             React.createElement<TextInputComponentProps>(TextInputComponent, {
                 className: dataCls,
                 value: data.text,
-                onChange: this.handleTextChange.bind(this)
+                onChange: this.handleTextChange.bind(this),
+                onBlur: this.handleTextBlur.bind(this)
             }) :
             dom['div']({ className: dataCls }, data.text);
     }
 
     handleTextChange(value) {
         this.context.documentActions.updateNodeData({ text: value });
+    }
+
+    handleTextBlur() {
+        this.context.documentActions.exitEditMode();
     }
 
     handleKeyPress(e: KeyboardEvent) {
