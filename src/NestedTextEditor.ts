@@ -51,7 +51,6 @@ class TextInputComponent extends React.Component<TextInputComponentProps, {}, {}
     render() {
         return dom['div']({
             className: this.props.className,
-            style: { outline: 'none', minWidth: '2px'},
             contentEditable: true,
             onInput: this.handleInput.bind(this),
             dangerouslySetInnerHTML: { __html: this.props.value }
@@ -79,13 +78,17 @@ class TextInputComponent extends React.Component<TextInputComponentProps, {}, {}
 class NestedTextNodeView extends NestedNodeView.Component<TextData> {
 
     renderData(data, editMode) {
+        var dataCls = 'nn__node-data';
+        if (!editMode && !data.text) {
+            dataCls += ' ' + (dataCls + '_empty');
+        }
         return editMode ?
             React.createElement<TextInputComponentProps>(TextInputComponent, {
-                className: 'nn_data',
+                className: dataCls,
                 value: data.text,
                 onChange: this.handleTextChange.bind(this)
             }) :
-            dom['div']({ className: 'nn_data' + (!data.text ? ' empty' : '') }, data.text);
+            dom['div']({ className: dataCls }, data.text);
     }
 
     handleTextChange(value) {
