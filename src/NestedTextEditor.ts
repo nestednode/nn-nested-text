@@ -1,14 +1,14 @@
 import React = require('pkg/React/React');
 import dom = React.DOM;
 
-import NNDocument = require('pkg/NestedNode/lib/NNDocument');
-import NNDocumentView = require('pkg/NestedNodeView/lib/NNDocumentView');
-import NestedNodeView = require('pkg/NestedNodeView/lib/NestedNodeView');
-import KeyboardUtil = require('pkg/NestedNodeView/lib/KeyboardUtil');
+import NNDocument = require('pkg/NestedNode/lib/NestedNode/NNDocument');
+import NNDocumentView = require('pkg/NestedNode/lib/NestedNodeView/NNDocumentView');
+import NestedNodeView = require('pkg/NestedNode/lib/NestedNodeView/NestedNodeView');
+import KeyboardUtil = require('pkg/NestedNode/lib/NestedNodeView/KeyboardUtil');
 
 
 declare var require;
-require(['pkg/require-css/css!pkg/NestedNodeStyle/NestedNodeStyle']);
+require(['pkg/require-css/css!pkg/NestedNode/lib/NestedNodeStyle/NestedNodeStyle']);
 
 
 interface TextData {

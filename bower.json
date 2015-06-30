@@ -17,8 +17,6 @@
     "dependencies": {
         "React": "../React",
         "NestedNode": "../NestedNode",
-        "NestedNodeView": "../NestedNodeView",
-        "NestedNodeStyle": "../NestedNodeStyle",
         "require-css": "~0.1.8"
     },
     "devDependencies": {}
