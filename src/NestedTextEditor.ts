@@ -2,6 +2,7 @@ import React = require('pkg/React/React');
 import dom = React.DOM;
 
 import NNDocument = require('pkg/NestedNode/lib/NestedNode/NNDocument');
+import DataFunctions = require('pkg/NestedNode/lib/NestedNode/DataFunctions');
 import NNDocumentView = require('pkg/NestedNode/lib/NestedNodeView/NNDocumentView');
 import NestedNodeView = require('pkg/NestedNode/lib/NestedNodeView/NestedNodeView');
 import KeyboardUtil = require('pkg/NestedNode/lib/NestedNodeView/KeyboardUtil');
@@ -16,18 +17,22 @@ interface TextData {
 }
 
 
-class NestedTextDocument extends NNDocument<TextData> {
+class TextDataFunctions implements DataFunctions<TextData> {
 
-    getBlankNodeData(): TextData {
+    getBlank(): TextData {
         return { text: '' };
     }
 
-    nodeDataDuplicator(data: TextData): TextData {
-        return { text: data.text };
+    isBlank(data: TextData):boolean {
+        return data.text == '';
     }
 
-    nodeDataEqualityChecker(data1: TextData, data2: TextData): boolean {
+    isEqual(data1: TextData, data2: TextData):boolean {
         return data1.text == data2.text.trim();
+    }
+
+    duplicate(data: TextData): TextData {
+        return { text: data.text };
     }
 
 }
@@ -111,7 +116,7 @@ class NestedTextNodeView extends NestedNodeView.Component<TextData> {
 }
 
 
-function render(doc: NestedTextDocument) {
+function render(doc: NNDocument<TextData>) {
     var docElem = NNDocumentView.Element<TextData>({
         documentActions: doc,
         documentProps: doc,
@@ -140,6 +145,6 @@ var docData = { data: { text: 'hello world!' }, nested: [
 ]};
 
 
-var doc = new NestedTextDocument(docData);
+var doc = new NNDocument<TextData>(docData, new TextDataFunctions());
 doc.addListener('change', render);
 render(doc);
