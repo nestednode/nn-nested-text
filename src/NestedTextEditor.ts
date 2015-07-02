@@ -19,25 +19,19 @@ export interface TextData {
     text: string;
 }
 
+
 // helper data functions
 export var TextDataFunctions: DataFunctions<TextData> = {
 
-    getBlank: () => {
-        return { text: '' };
-    },
+    getBlank: () => ({ text: '' }),
 
-    isBlank: (data: TextData) => {
-        return data.text == '';
-    },
+    isBlank: (data: TextData) => data.text == '',
 
-    isEqual: (data1: TextData, data2: TextData) => {
-        return data1.text == data2.text.trim();
-    },
+    isEqual: (data1: TextData, data2: TextData) => data1.text == data2.text.trim(),
 
-    duplicate: (data: TextData) => {
-        return { text: data.text };
-    }
+    duplicate: (data: TextData) => ({ text: data.text })
 };
+
 
 // node view
 export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextData> {
@@ -75,9 +69,8 @@ export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextDa
 }
 
 
-
 // init and render
-export function init(content: NestedNodeProps<TextData>, container: Element): void {
+export function init(content: NestedNodeProps<TextData>, container: Element) {
     var render = document => React.render(
         NNDocumentView.Element<TextData>({
             documentActions: document,
