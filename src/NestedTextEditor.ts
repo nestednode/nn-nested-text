@@ -8,83 +8,39 @@ import NNDocumentView = require('pkg/NestedNode/lib/NestedNodeView/NNDocumentVie
 import NestedNodeView = require('pkg/NestedNode/lib/NestedNodeView/NestedNodeView');
 import KeyboardUtil = require('pkg/NestedNode/lib/NestedNodeView/KeyboardUtil');
 
+import TextInputComponent = require('./TextInputComponent');
 
 declare var require;
 require(['pkg/require-css/css!pkg/NestedNode/lib/NestedNodeStyle/NestedNodeStyle']);
 
 
+// data stored in node
 export interface TextData {
     text: string;
 }
 
+// helper data functions
+export var TextDataFunctions: DataFunctions<TextData> = {
 
-class TextDataFunctions implements DataFunctions<TextData> {
-
-    getBlank(): TextData {
+    getBlank: () => {
         return { text: '' };
-    }
+    },
 
-    isBlank(data: TextData):boolean {
+    isBlank: (data: TextData) => {
         return data.text == '';
-    }
+    },
 
-    isEqual(data1: TextData, data2: TextData):boolean {
+    isEqual: (data1: TextData, data2: TextData) => {
         return data1.text == data2.text.trim();
-    }
+    },
 
-    duplicate(data: TextData): TextData {
+    duplicate: (data: TextData) => {
         return { text: data.text };
     }
+};
 
-}
-
-
-interface TextInputComponentProps {
-    className?: string;
-    value?: string;
-    onChange?: (newValue: string) => void;
-    onBlur?: () => void;
-}
-
-class TextInputComponent extends React.Component<TextInputComponentProps, {}, {}> {
-
-    constructor(props, context) {
-        super(props, context);
-        this.handleInput = this.handleInput.bind(this);
-    }
-
-    protected render() {
-        return dom['div']({
-            className: this.props.className,
-            contentEditable: true,
-            onInput: this.handleInput,
-            onBlur: this.props.onBlur,
-            dangerouslySetInnerHTML: { __html: this.props.value }
-        })
-    }
-
-    private handleInput(e) {
-        this.props.onChange && this.props.onChange(e.target.innerText);
-    }
-
-    protected componentDidMount() {
-        var domNode = React.findDOMNode(this);
-
-        // перемещаем курсор в конец строки
-        var range = document.createRange();
-        range.selectNodeContents(domNode);
-        range.collapse(false);
-        var selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-
-        domNode.focus();
-    }
-
-}
-
-
-class NestedTextNodeView extends NestedNodeView.Component<TextData> {
+// node view
+export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextData> {
 
     protected renderData(data, editMode) {
         var dataCls = 'nn__node-data';
@@ -92,7 +48,7 @@ class NestedTextNodeView extends NestedNodeView.Component<TextData> {
             dataCls += ' ' + (dataCls + '_empty');
         }
         return editMode ?
-            React.createElement<TextInputComponentProps>(TextInputComponent, {
+            TextInputComponent.Element({
                 className: dataCls,
                 value: data.text,
                 onChange: this.handleTextChange.bind(this),
@@ -116,22 +72,20 @@ class NestedTextNodeView extends NestedNodeView.Component<TextData> {
         var clearCurrentValue = e.charCode != KeyboardUtil.KeyCode.SPACE;
         this.context.documentActions.enterEditMode(clearCurrentValue);
     }
-
 }
 
 
-export function init(content: NestedNodeProps<TextData>, container: Element) {
-    var doc = new NNDocument<TextData>(content, new TextDataFunctions());
-    var renderToContainer = render.bind(undefined, container);
-    doc.addListener('change', renderToContainer);
-    renderToContainer(doc);
-}
 
-function render(container: Element, doc: NNDocument<TextData>) {
-    var docElem = NNDocumentView.Element<TextData>({
-        documentActions: doc,
-        documentProps: doc,
-        nestedNodeViewComponent: NestedTextNodeView
-    });
-    React.render(docElem, container);
+// init and render
+export function init(content: NestedNodeProps<TextData>, container: Element): void {
+    var render = document => React.render(
+        NNDocumentView.Element<TextData>({
+            documentActions: document,
+            documentProps: document,
+            nestedNodeViewComponent: NestedTextNodeViewComponent
+        }),
+        container);
+    var document = new NNDocument<TextData>(content, TextDataFunctions);
+    document.addListener('change', render);
+    render(document);
 }
