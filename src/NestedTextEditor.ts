@@ -70,12 +70,13 @@ export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextDa
 
 
 // init and render
-export function init(content: NestedNodeProps<TextData>, container: Element) {
+export function init(content: NestedNodeProps<TextData>, container: Element, styleMods: {}) {
     var render = document => React.render(
         NNDocumentView.Element<TextData>({
             documentActions: document,
             documentProps: document,
-            nestedNodeViewComponent: NestedTextNodeViewComponent
+            nestedNodeViewComponent: NestedTextNodeViewComponent,
+            styleMods: styleMods
         }),
         container);
     var document = new NNDocument<TextData>(content, TextDataFunctions);

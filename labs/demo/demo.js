@@ -18,6 +18,6 @@ require(['../../lib/NestedTextEditor'], function(NestedTextEditor) {
         ]}
     ]};
 
-    NestedTextEditor.init(docData, document.body);
+    NestedTextEditor.init(docData, document.body, { theme: 'dark', zoom: 200, compact: true });
 
 });

@@ -12,4 +12,4 @@ export declare class NestedTextNodeViewComponent extends NestedNodeView.Componen
     private handleTextBlur();
     protected handleKeyPress(e: KeyboardEvent): void;
 }
-export declare function init(content: NestedNodeProps<TextData>, container: Element): void;
+export declare function init(content: NestedNodeProps<TextData>, container: Element, styleMods: {}): void;
