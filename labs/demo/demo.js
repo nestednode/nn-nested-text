@@ -1,6 +1,6 @@
-require(['../../lib/NestedTextEditor'], function(NestedTextEditor) {
+require(['../../lib/NestedText'], function(NestedText) {
 
-    var docData = { data: { text: 'hello world!' }, nested: [
+    var nestedTextData = { data: { text: 'hello world!' }, nested: [
         { data: { text: 'космос' }, nested: [
             { data: { text: '9'} },
             { data: { text: '8'} },
@@ -18,6 +18,12 @@ require(['../../lib/NestedTextEditor'], function(NestedTextEditor) {
         ]}
     ]};
 
-    NestedTextEditor.init(docData, document.body, { theme: 'dark', zoom: 200, compact: true });
+    var nestedTextDoc = NestedText.createDocument(nestedTextData);
+    var container = document.body;
+    var styleMods = { theme: 'dark', zoom: 200, compact: true };
+    var render = NestedText.renderToContainer.bind(undefined, container, styleMods);
+
+    nestedTextDoc.addListener('change', render);
+    render(nestedTextDoc);
 
 });

@@ -1,17 +1,17 @@
-import React = require('pkg/React/React');
+import React = require('bower_components/nn-react/React');
 import dom = React.DOM;
 
-import NestedNodeProps = require('pkg/NestedNode/lib/NestedNodeProps/NestedNodeProps');
-import NNDocument = require('pkg/NestedNode/lib/NestedNode/NNDocument');
-import DataFunctions = require('pkg/NestedNode/lib/NestedNode/DataFunctions');
-import NNDocumentView = require('pkg/NestedNode/lib/NestedNodeView/NNDocumentView');
-import NestedNodeView = require('pkg/NestedNode/lib/NestedNodeView/NestedNodeView');
-import KeyboardUtil = require('pkg/NestedNode/lib/NestedNodeView/KeyboardUtil');
+import NestedNodeProps = require('bower_components/nn-nested-node/lib/NestedNodeProps/NestedNodeProps');
+import NNDocument = require('bower_components/nn-nested-node/lib/NestedNode/NNDocument');
+import DataFunctions = require('bower_components/nn-nested-node/lib/NestedNode/DataFunctions');
+import NNDocumentView = require('bower_components/nn-nested-node/lib/NestedNodeView/NNDocumentView');
+import NestedNodeView = require('bower_components/nn-nested-node/lib/NestedNodeView/NestedNodeView');
+import KeyboardUtil = require('bower_components/nn-nested-node/lib/NestedNodeView/KeyboardUtil');
 
 import TextInputComponent = require('./TextInputComponent');
 
 declare var require;
-require(['pkg/require-css/css!pkg/NestedNode/lib/NestedNodeStyle/NestedNodeStyle']);
+require(['bower_components/require-css/css!bower_components/nn-nested-node/lib/NestedNodeStyle/NestedNodeStyle']);
 
 
 // data stored in node
@@ -69,17 +69,19 @@ export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextDa
 }
 
 
-// init and render
-export function init(content: NestedNodeProps<TextData>, container: Element, styleMods: {}) {
-    var render = document => React.render(
-        NNDocumentView.Element<TextData>({
-            documentActions: document,
-            documentProps: document,
-            nestedNodeViewComponent: NestedTextNodeViewComponent,
-            styleMods: styleMods
-        }),
-        container);
-    var document = new NNDocument<TextData>(content, TextDataFunctions);
-    document.addListener('change', render);
-    render(document);
+export function createDocument(content: NestedNodeProps<TextData>): NNDocument<TextData> {
+    return new NNDocument<TextData>(content, TextDataFunctions);
+}
+
+export function createDocumentViewElement(document: NNDocument<TextData>, styleMods: {}): React.ReactElement {
+    return NNDocumentView.Element<TextData>({
+        documentActions: document,
+        documentProps: document,
+        nestedNodeViewComponent: NestedTextNodeViewComponent,
+        styleMods: styleMods
+    })
+}
+
+export function renderToContainer(container: Element, styleMods: {}, document: NNDocument<TextData>) {
+    return React.render(createDocumentViewElement(document, styleMods), container);
 }

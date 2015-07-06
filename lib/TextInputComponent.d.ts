@@ -1,4 +1,4 @@
-import React = require('pkg/React/React');
+import React = require('bower_components/nn-react/React');
 declare module TextInputComponent {
     interface Props {
         className?: string;

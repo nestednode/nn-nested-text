@@ -1,23 +1,21 @@
 {
-    "name": "NestedTextEditor",
-    "version": "0.0.1",
-    "main": "lib/NestedTextEditor.js",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules/",
-        "bower_components/",
-        "pkg/",
-        "labs/",
-        "labs.labman",
-        "src/",
-        "gruntfile.js",
-        "package.json"
-    ],
-    "dependencies": {
-        "React": "../React",
-        "NestedNode": "../NestedNode",
-        "require-css": "~0.1.8"
-    },
-    "devDependencies": {}
+  "name": "nn-nested-text",
+  "version": "0.0.1",
+  "main": "lib/NestedText.js",
+  "ignore": [
+    "**/.*",
+    "node_modules/",
+    "bower_components/",
+    "labs/",
+    "labs.labman",
+    "src/",
+    "gulpfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "nn-react": "../nn-react",
+    "nn-nested-node": "../nn-nested-node",
+    "require-css": "~0.1.8"
+  },
+  "devDependencies": {}
 }
