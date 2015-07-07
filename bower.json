@@ -9,13 +9,16 @@
     "labs/",
     "labs.labman",
     "src/",
+    "demo/",
     "gulpfile.js",
     "package.json"
   ],
   "dependencies": {
-    "nn-react": "../nn-react",
-    "nn-nested-node": "../nn-nested-node",
-    "require-css": "~0.1.8"
+    "nn-nested-node": "~0.0.1",
+    "nn-react": "~0.13.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "requirejs": "~2.1.18",
+    "require-css": "~0.1.8"
+  }
 }

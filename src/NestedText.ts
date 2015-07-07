@@ -10,9 +10,6 @@ import KeyboardUtil = require('bower_components/nn-nested-node/lib/NestedNodeVie
 
 import TextInputComponent = require('./TextInputComponent');
 
-declare var require;
-require(['bower_components/require-css/css!bower_components/nn-nested-node/lib/NestedNodeStyle/NestedNodeStyle']);
-
 
 // data stored in node
 export interface TextData {

@@ -1,4 +1,7 @@
-require(['../../lib/NestedText'], function(NestedText) {
+require([
+    '../../lib/NestedText',
+    'bower_components/require-css/css!bower_components/nn-nested-node/lib/NestedNodeStyle/NestedNodeStyle'
+], function(NestedText) {
 
     var nestedTextData = { data: { text: 'hello world!' }, nested: [
         { data: { text: 'космос' }, nested: [
@@ -20,7 +23,7 @@ require(['../../lib/NestedText'], function(NestedText) {
 
     var nestedTextDoc = NestedText.createDocument(nestedTextData);
     var container = document.body;
-    var styleMods = { theme: 'dark', zoom: 200, compact: true };
+    var styleMods = { zoom: 200 };
     var render = NestedText.renderToContainer.bind(undefined, container, styleMods);
 
     nestedTextDoc.addListener('change', render);
