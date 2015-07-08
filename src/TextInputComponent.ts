@@ -29,12 +29,26 @@ module TextInputComponent {
         }
 
         private handleInput(e) {
-            this.props.onChange && this.props.onChange(e.target.innerText);
+            this.props.onChange && this.props.onChange(e.target.textContent);
+        }
+
+        protected shouldComponentUpdate(nextProps: Props) {
+            var domNode = React.findDOMNode(this);
+            // в firefox курсор у contenteditable сбивается при setInnerHTML,
+            // поэтому компонент обновляем полностью только при рассинхронизации value
+            if (domNode.textContent != nextProps.value) {
+                return true;
+            }
+            // не будем обновлять весь компонент, если изменилось только имя класса
+            if (domNode.className !== nextProps.className) {
+                domNode.className = nextProps.className;
+            }
+            return false;
+            // каков бы не был результат, this.props и this.state react обновит и так
         }
 
         protected componentDidMount() {
             var domNode = React.findDOMNode(this);
-
             // перемещаем курсор в конец строки
             var range = document.createRange();
             range.selectNodeContents(domNode);
@@ -42,7 +56,6 @@ module TextInputComponent {
             var selection = window.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
-
             domNode.focus();
         }
 

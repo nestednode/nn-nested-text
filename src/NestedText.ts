@@ -60,8 +60,13 @@ export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextDa
         if (this.props.editing) {
             return;
         }
-        var clearCurrentValue = e.charCode != KeyboardUtil.KeyCode.SPACE;
-        this.context.documentActions.enterEditMode(clearCurrentValue);
+        if (e.ctrlKey || e.metaKey || e.altKey || e.charCode == KeyboardUtil.KeyCode.SPACE) {
+            return;
+        }
+        // chrome успевает напечатать символ в создаваемом contenteditable, а firefox - нет
+        // чтобы поведение было одинаковым, приходится отменять действие по-умолчанию и передавать символ явно
+        e.preventDefault();
+        this.context.documentActions.enterEditMode({ text: e.key });
     }
 }
 

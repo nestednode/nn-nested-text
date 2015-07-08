@@ -10,6 +10,7 @@ declare module TextInputComponent {
         constructor(props: any, context: any);
         protected render(): React.ReactElement;
         private handleInput(e);
+        protected shouldComponentUpdate(nextProps: Props): boolean;
         protected componentDidMount(): void;
     }
     function Element(props: Props): React.ReactElement;
