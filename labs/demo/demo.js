@@ -23,7 +23,7 @@ require([
 
     var nestedTextDoc = NestedText.createDocument(nestedTextData);
     var container = document.body;
-    var styleMods = { zoom: 200 };
+    var styleMods = { size: '13-strong' };
     var render = NestedText.renderToContainer.bind(undefined, container, styleMods);
 
     nestedTextDoc.addListener('change', render);
