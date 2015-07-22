@@ -1,6 +1,6 @@
 {
   "name": "nn-nested-text",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/NestedText.js",
   "ignore": [
     "**/.*",
@@ -14,7 +14,7 @@
     "package.json"
   ],
   "dependencies": {
-    "nn-nested-node": "~0.0.1",
+    "nn-nested-node": "0.0.2",
     "nn-react": "~0.13.3"
   },
   "devDependencies": {
