@@ -16,9 +16,7 @@ require([
             { data: { text: '1'} },
             { data: { text: 'поехали!'} }
         ]},
-        { data: { text: 'foo bar'}, nested: [
-
-        ]}
+        { data: { text: 'foo bar'} }
     ]};
 
     var nestedTextDoc = NestedText.createDocument(nestedTextData);

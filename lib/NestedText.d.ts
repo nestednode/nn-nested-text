@@ -7,12 +7,12 @@ export interface TextData {
     text: string;
 }
 export declare var TextDataFunctions: DataFunctions<TextData>;
+export declare function createDocument(content: NestedNodeProps<TextData>): NNDocument<TextData>;
 export declare class NestedTextNodeViewComponent extends NestedNodeView.Component<TextData> {
-    protected renderData(data: any, editMode: any): React.ReactElement;
+    protected renderData(data: TextData, editMode: boolean): React.ReactElement;
     private handleTextChange(value);
     private handleTextBlur();
     protected handleKeyPress(e: KeyboardEvent): void;
 }
-export declare function createDocument(content: NestedNodeProps<TextData>): NNDocument<TextData>;
-export declare function createDocumentViewElement(document: NNDocument<TextData>, styleMods: {}): React.ReactElement;
-export declare function renderToContainer(container: Element, styleMods: {}, document: NNDocument<TextData>): React.Component<any, any, any>;
+export declare function createDocumentViewElement(document: NNDocument<TextData>, styleMods: any): React.ReactElement;
+export declare function renderToContainer(container: Element, styleMods: any, document: NNDocument<TextData>): React.Component<any, any, any>;

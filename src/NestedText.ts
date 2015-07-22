@@ -11,13 +11,19 @@ import KeyboardUtil = require('bower_components/nn-nested-node/lib/NestedNodeVie
 import TextInputComponent = require('./TextInputComponent');
 
 
-// data stored in node
+// Как построить редактор под требуемый тип узлов:
+
+// определяем, данные какой структуры будут редактироваться в узлах документа —
+// для простоты примера, пусть это будет текстовая строка
+
 export interface TextData {
     text: string;
 }
 
 
-// helper data functions
+// реализуем набор функций над этими данными,
+// они необходимы для работы внутренних методов документа
+
 export var TextDataFunctions: DataFunctions<TextData> = {
 
     getBlank: () => ({ text: '' }),
@@ -30,10 +36,20 @@ export var TextDataFunctions: DataFunctions<TextData> = {
 };
 
 
-// node view
+// предыдущего достаточно, чтобы получить документ, работающий с деревом узлов нужного нам типа
+
+export function createDocument(content: NestedNodeProps<TextData>): NNDocument<TextData> {
+    return new NNDocument<TextData>(content, TextDataFunctions);
+}
+
+
+// переходим к View: опеределяем React-компонент, который будет отображать данные узла,
+// отвечать за их редактирование, а также интерперетировать действия пользователя
+// в вызовы соответствующих операций над документом
+
 export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextData> {
 
-    protected renderData(data, editMode) {
+    protected renderData(data: TextData, editMode: boolean) {
         var dataCls = 'nn__node-data';
         if (!editMode && !data.text) {
             dataCls += ' ' + (dataCls + '_empty');
@@ -48,7 +64,7 @@ export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextDa
             dom['div']({ className: dataCls }, data.text);
     }
 
-    private handleTextChange(value) {
+    private handleTextChange(value: string) {
         this.context.documentActions.updateNodeData({ text: value });
     }
 
@@ -71,11 +87,10 @@ export class NestedTextNodeViewComponent extends NestedNodeView.Component<TextDa
 }
 
 
-export function createDocument(content: NestedNodeProps<TextData>): NNDocument<TextData> {
-    return new NNDocument<TextData>(content, TextDataFunctions);
-}
+// после того как компонент для работы с отдельными узлами готов,
+// React-элемент для всего документа создается следующим образом:
 
-export function createDocumentViewElement(document: NNDocument<TextData>, styleMods: {}): React.ReactElement {
+export function createDocumentViewElement(document: NNDocument<TextData>, styleMods): React.ReactElement {
     return NNDocumentView.Element<TextData>({
         documentActions: document,
         documentProps: document,
@@ -84,6 +99,9 @@ export function createDocumentViewElement(document: NNDocument<TextData>, styleM
     })
 }
 
-export function renderToContainer(container: Element, styleMods: {}, document: NNDocument<TextData>) {
+
+// теперь дело за React (см. также demo.js)
+
+export function renderToContainer(container: Element, styleMods, document: NNDocument<TextData>) {
     return React.render(createDocumentViewElement(document, styleMods), container);
 }
